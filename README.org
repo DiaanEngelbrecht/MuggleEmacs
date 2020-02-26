@@ -1,0 +1,5 @@
+#+TITLE: Personal Spacemacs configuration
+#+AUTHOR: Diaan Engelbrecht
+
+
+* Frontend layers
