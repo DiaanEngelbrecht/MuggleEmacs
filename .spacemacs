@@ -52,8 +52,11 @@ values."
      git
      version-control
      ;; Frontend related layers
-     typescript
+     (dart :variables
+           lsp-dart-sdk-dir "~/application/flutter/bin/cache/dart-sdk/"
+           lsp-enable-on-type-formatting t)
      prettier
+     typescript
      lsp
      (javascript :variables
                  javascript-backend 'lsp
@@ -63,7 +66,14 @@ values."
      react
      (html :variables web-fmt-tool 'prettier)
      ;; Backend related layers
-     ;; (shell :variables
+     yaml
+     (ruby :variables
+           ruby-enable-enh-ruby-mode t
+           ruby-version-manager 'chruby
+           ruby-test-runner 'rspec
+           ruby-backend 'lsp)
+     ruby-on-rails
+    ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
@@ -76,6 +86,7 @@ values."
    '(
      all-the-icons
      all-the-icons-ibuffer
+     flutter
     )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
