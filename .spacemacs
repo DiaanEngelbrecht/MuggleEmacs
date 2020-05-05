@@ -42,7 +42,7 @@ values."
                       auto-completion-enable-sort-by-usage t)
      syntax-checking
      csv
-     spacejams
+     ;; spacejams
      emacs-lisp
      org
      markdown
@@ -73,6 +73,9 @@ values."
            ruby-test-runner 'rspec
            ruby-backend 'lsp)
      ruby-on-rails
+
+     ;; Text editing layers
+     latex
     ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
@@ -366,6 +369,8 @@ you should place your code here."
         (flutter-hot-reload)
       (flutter-run "-d chrome")))
 
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+
   (all-the-icons-ibuffer-mode 1)
   (global-company-mode)
   (setq org-default-notes-file (concat org-directory "/code_todos.org"))
@@ -408,3 +413,4 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  )
 )
+(setq-default dotspacemacs-configuration-layers '(pdf-tools))
