@@ -44,7 +44,7 @@ values."
      spell-checking
      syntax-checking
      csv
-     spacejams
+     ;; spacejams
      emacs-lisp
      org
      markdown
@@ -390,7 +390,7 @@ you should place your code here."
 
   (require 'gdscript-mode)
 
-  (setq elixir-ls-path "/home/diaan/application/elixir-ls/release")
+  (setq elixir-ls-path "/home/diaan/Applications/elixir-ls/release")
   (setq org-default-notes-file (concat org-directory "/code_todos.org"))
 
   (setq-default indent-tabs-mode t)
