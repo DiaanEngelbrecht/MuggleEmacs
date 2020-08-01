@@ -1,5 +1,31 @@
 #+TITLE: Personal Spacemacs configuration
 #+AUTHOR: Diaan Engelbrecht
 
+This is my personal spacemacs configuration.
 
+* General layers
+** Git
+*** Uses magit
+** Version control
+** Org
+** Markdown
+* Backend layers
+** PHP
+** Elixir
+** Ruby
+** SQL
+** YAML
 * Frontend layers
+** Prettier
+** Dart
+** Typescript
+** Javascript
+** React
+** Html
+* GameDev layers
+** Godot
+* DevOps layers
+** Docker
+* Custom layers
+** Spacejams
+*** Improved spotify layer to controll spotify inside spacemacs.

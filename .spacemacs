@@ -55,7 +55,7 @@ values."
      version-control
      ;; Frontend related layers
      (dart :variables
-           lsp-dart-sdk-dir "~/application/flutter/bin/cache/dart-sdk/"
+           lsp-dart-sdk-dir "~/snap/flutter/common/flutter/bin/cache/dart-sdk"
            lsp-enable-on-type-formatting t)
      prettier
      typescript
@@ -67,9 +67,9 @@ values."
                  js-indent-level 2 )
      react
      (html :variables web-fmt-tool 'prettier)
-;; Backend related layers
+	 ;; Backend related layers
      php
-     (elixir :variables elixir-backend 'lsp)
+     (elixir :variables elixir-backend 'alchemist)
      sql
      python
      yaml
@@ -79,9 +79,8 @@ values."
            ruby-test-runner 'rspec
            ruby-backend 'lsp)
      ruby-on-rails
-    ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+	 ;; DevOps
+	 docker
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
