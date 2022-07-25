@@ -30,7 +30,7 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(shell-scripts
+   '(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -38,14 +38,12 @@ values."
      ;; ----------------------------------------------------------------
      ;; File system and general emacs layers
      helm
-     themes-megapack
+     shell-scripts
      (auto-completion :variables
                       auto-completion-enable-sort-by-usage t)
      spell-checking
      syntax-checking
-     csv
      emacs-lisp
-     org
      markdown
      ibuffer
      ;; better-defaults
@@ -53,40 +51,31 @@ values."
      ;; Version control layers
      git
      version-control
+     (lsp :variables
+          lsp-headerline-breadcrumb-enable nil
+          lsp-lens-enable t
+      )
 
      ;; Frontend related layers
      (dart :variables
            lsp-dart-sdk-dir "~/application/flutter/bin/cache/dart-sdk/"
            lsp-enable-on-type-formatting t)
-     prettier
-     typescript
-     lsp
-     (javascript :variables
-                 javascript-backend 'lsp
-                 javascript-fmt-tool 'prettier
-                 js2-basic-offset 2
-                 js-indent-level 2 )
-     react
-     (html :variables web-fmt-tool 'prettier)
+
+     (typescript :variables
+                 typescript-fmt-tool 'tide
+                 typescript-fmt-on-save t
+                 tide-tsserver-executable "/opt/homebrew/bin/tsserver")
 	   ;; Backend related layers
-     php
      (elixir :variables elixir-backend 'lsp)
-	 (go :variables go-backend 'lsp)
+		 (go :variables go-backend 'lsp)
      protobuf
-     sql
+		 (sql :variables
+					sql-backend 'lsp
+					sql-lsp-sqls-workspace-config-path 'root)
      python
      yaml
-     (rust :variables rust-backend 'racer)
-     (ruby :variables
-           ruby-enable-enh-ruby-mode t
-           ruby-version-manager 'chruby
-           ruby-test-runner 'rspec
-           ruby-backend 'lsp)
-     ruby-on-rails
-	 (terraform :variables terraform-auto-format-on-save t)
-    ;; (shell :variables
-    ;;        shell-default-height 30
-    ;;        shell-default-position 'bottom)
+     (rust :variables rust-format-on-save t)
+		 (terraform :variables terraform-auto-format-on-save t)
     )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -172,7 +161,9 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-       doom-snazzy
+			 ample-zen
+			 ;; doom-vibrant
+       ;; doom-snazzy
        ;; dracula
        ;; spacemacs-dark
        ;; spacemacs-light
@@ -182,7 +173,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro for Powerline"
-                               :size 15
+                               :size 16
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -342,20 +333,7 @@ values."
    dotspacemacs-whitespace-cleanup nil
    ))
 
-(defun my-setup-indent (n)
-  ;; java/c/c++
-  (setq c-basic-offset n)
-  ;; web development
-  (setq coffee-tab-width n) ; coffeescript
-  (setq javascript-indent-level n) ; javascript-mode
-  (setq js-indent-level n) ; js-mode
-  (setq js2-basic-offset n) ; js2-mode, in latest js2-mode, it's alias of js-indent-level
-  (setq web-mode-markup-indent-offset n) ; web-mode, html tag in html file
-  (setq web-mode-css-indent-offset n) ; web-mode, css in html file
-  (setq web-mode-code-indent-offset n) ; web-mode, js code in html file
-  (setq css-indent-offset n) ; css-mode
-  (setq-default typescript-indent-level n)
-  )
+
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
@@ -392,13 +370,12 @@ you should place your code here."
   (all-the-icons-ibuffer-mode 1)
   (global-company-mode)
   (setq elixir-ls-path "/home/diaan/application/elixir-ls/release")
-  (setq org-default-notes-file (concat org-directory "/code_todos.org"))
 
+	(global-set-key (kbd "C-h") 'evil-window-left)
+	(global-set-key (kbd "C-l") 'evil-window-right)
+	(global-set-key (kbd "C-j") 'evil-window-down)
+	(global-set-key (kbd "C-k") 'evil-window-up)
 
-  (my-setup-indent 2)
-  (setq-default indent-tabs-mode t)
-  (setq-default tab-width 2)
-  (setq-default typescript-indent-level 2)
   (setq auto-window-vscroll nil)
   (setq smooth-scroll/vscroll-step-size 50) ;; Set the speed right
 
@@ -422,9 +399,9 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
-   (quote
-    (org-projectile smeargle orgit org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup htmlize helm-gitignore gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md evil-magit magit git-commit with-editor transient web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
+   '(org-projectile smeargle orgit org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup htmlize helm-gitignore gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md evil-magit magit git-commit with-editor transient web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
